@@ -1,0 +1,9 @@
+textblob
+scikit-learn
+pymorphy2
+nltk
+SQLAlchemy
+bcrypt
+streamlit
+psycopg2-binary
+streamlit-extras

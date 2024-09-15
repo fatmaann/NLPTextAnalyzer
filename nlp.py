@@ -1,19 +1,20 @@
+import os
 from textblob import TextBlob
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 import pymorphy2
 import re
+
+from collections import Counter
+import logging
 import nltk
 
 from nltk.tokenize import word_tokenize
 from nltk.collocations import BigramCollocationFinder
 from nltk.metrics import BigramAssocMeasures
-from collections import Counter
-import logging
 
 nltk.download('stopwords')
 nltk.download('punkt_tab')
-
 from nltk.corpus import stopwords
 
 

@@ -4,6 +4,6 @@ pymorphy2
 nltk
 SQLAlchemy
 bcrypt
-streamlit
+streamlit==1.38.0
 psycopg2-binary
 streamlit-extras

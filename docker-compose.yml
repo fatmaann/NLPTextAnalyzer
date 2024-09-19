@@ -8,7 +8,7 @@ services:
     ports:
       - "8501:8501"
     environment:
-      - DATABASE_URL=postgresql://user:password@db:5432/nlp_db
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
     depends_on:
       - db
     volumes:

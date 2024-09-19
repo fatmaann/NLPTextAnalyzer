@@ -15,7 +15,6 @@
       }
     ]
   },
-  "description": "stat mvp 2",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
@@ -26,7 +25,7 @@
       "datasource": {
         "default": true,
         "type": "grafana-postgresql-datasource",
-        "uid": "fdy0ip7tq0z5sd"
+        "uid": "edy7gqw986ygwf"
       },
       "fieldConfig": {
         "defaults": {
@@ -51,18 +50,16 @@
         "overrides": []
       },
       "gridPos": {
-        "h": 8,
-        "w": 12,
+        "h": 12,
+        "w": 11,
         "x": 0,
         "y": 0
       },
       "id": 1,
       "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
+        "minVizHeight": 75,
+        "minVizWidth": 75,
         "orientation": "auto",
-        "percentChangeColorMode": "standard",
         "reduceOptions": {
           "calcs": [
             "lastNotNull"
@@ -70,21 +67,21 @@
           "fields": "",
           "values": false
         },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
+        "showThresholdLabels": false,
+        "showThresholdMarkers": true,
+        "sizing": "auto"
       },
       "pluginVersion": "11.2.0",
       "targets": [
         {
           "datasource": {
             "type": "grafana-postgresql-datasource",
-            "uid": "fdy0ip7tq0z5sd"
+            "uid": "edy7gqw986ygwf"
           },
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT COUNT(DISTINCT user_id) FROM users;",
+          "rawSql": "SELECT * FROM users ",
           "refId": "A",
           "sql": {
             "columns": [
@@ -106,7 +103,7 @@
         }
       ],
       "title": "Panel Title",
-      "type": "stat"
+      "type": "gauge"
     }
   ],
   "schemaVersion": 39,
@@ -120,8 +117,8 @@
   },
   "timepicker": {},
   "timezone": "browser",
-  "title": "New dashboard 2",
-  "uid": "ady0j1g59o5q8f",
+  "title": "New dashboard 5",
+  "uid": "edy7gw61sgbuod",
   "version": 1,
   "weekStart": ""
 }

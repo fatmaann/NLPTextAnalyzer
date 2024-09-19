@@ -1,5 +1,5 @@
 import os
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
+from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateTime, func
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 import bcrypt
@@ -19,8 +19,7 @@ class User(Base):
     __tablename__ = "users"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String, index=True, unique=True)
-    username = Column(String, index=True)
+    username = Column(String, index=True, unique=True)
     hashed_password = Column(String)
 
     # Связь с таблицей текстов и таблицей нажатий
@@ -33,7 +32,7 @@ class UserText(Base):
     __tablename__ = "user_texts"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String, ForeignKey("users.user_id"), nullable=False)
+    user_id = Column(String, ForeignKey("users.username"), nullable=False)
     text = Column(String, nullable=False)
 
     # Связь с таблицей пользователей
@@ -45,8 +44,9 @@ class ButtonClick(Base):
     __tablename__ = "button_clicks"
 
     id = Column(Integer, primary_key=True, index=True)
-    user_id = Column(String, ForeignKey("users.user_id"), nullable=False)
+    user_id = Column(String, ForeignKey("users.username"), nullable=False)
     button_name = Column(String, nullable=False)
+    click_timestamp = Column(DateTime, default=func.now(), nullable=False)  # Новый столбец с точным временем
 
     # Связь с таблицей пользователей
     user = relationship("User", back_populates="button_clicks")
@@ -65,10 +65,6 @@ def get_db():
         db.close()
 
 
-def get_user_id():
-    return uuid4().hex
-
-
 # Функция для хеширования паролей
 def hash_password(password: str) -> str:
     return bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
@@ -81,8 +77,14 @@ def verify_password(plain_password: str, hashed_password: str) -> bool:
 
 # Функция для создания пользователя (используется один раз для добавления пользователей в базу)
 def create_user(db, username: str, password: str):
+    # Проверяем, существует ли пользователь с таким username
+    existing_user = db.query(User).filter_by(username=username).first()
+    if existing_user:
+        return False  # Пользователь с таким username уже существует
+
+    # Если пользователя нет, создаем нового
     hashed_password = hash_password(password)
-    user = User(user_id=get_user_id(), username=username, hashed_password=hashed_password)
+    user = User(username=username, hashed_password=hashed_password)
     db.add(user)
     db.commit()
     db.refresh(user)
@@ -97,10 +99,9 @@ def save_user_text(db, user_id: str, text: str):
     db.refresh(user_text)
     return user_text
 
-
 # Функция для сохранения нажатия на кнопку
-def save_button_click(db, user_id: str, button_name: str):
-    button_click = ButtonClick(user_id=user_id, button_name=button_name)
+def save_button_click(db, username: str, button_name: str):
+    button_click = ButtonClick(user_id=username, button_name=button_name)
     db.add(button_click)
     db.commit()
     db.refresh(button_click)

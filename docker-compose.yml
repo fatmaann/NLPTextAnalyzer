@@ -9,6 +9,7 @@ services:
       - "8501:8501"
     environment:
       - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB}
+      - PYTHONPATH=/app
     depends_on:
       - db
     volumes:
@@ -35,8 +36,8 @@ services:
       - GF_SECURITY_ADMIN_USER=admin
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
-      - ./dashboards:/var/lib/grafana/dashboards
-      - ./provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning:/etc/grafana/provisioning
 
 volumes:
   postgres_data:

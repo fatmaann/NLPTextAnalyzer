@@ -18,6 +18,10 @@ psycopg2-binary = "^2.9.9"
 streamlit-extras = "^0.4.7"
 
 
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.3.3"
+pytest-cov = "^5.0.0"
+
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"

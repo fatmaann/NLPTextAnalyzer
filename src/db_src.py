@@ -3,7 +3,6 @@ from sqlalchemy import create_engine, Column, Integer, String, ForeignKey, DateT
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 import bcrypt
-from uuid import uuid4
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 

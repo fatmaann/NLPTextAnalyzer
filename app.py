@@ -1,8 +1,8 @@
 import streamlit as st
 import logging
 from sqlalchemy.orm import Session
-from nlp import TextAnalyzer
-from db_src import User, verify_password, get_db, create_user, save_user_text, save_button_click, get_user_texts
+from analyzer.nlp import TextAnalyzer
+from src.db_src import User, verify_password, get_db, create_user, save_user_text, save_button_click, get_user_texts
 import re
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')

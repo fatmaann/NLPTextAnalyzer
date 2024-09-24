@@ -1,0 +1,14 @@
+piVersion: 1
+
+datasources:
+  - name: Postgres
+    type: postgres
+    url: localhost:5432
+    user: $POSTGRES_USER
+    editable: true
+    is_default: true
+    secureJsonData:
+      password: $POSTGRES_PASSWORD
+    jsonData:
+      database: $POSTGRES_DB
+      sslmode: 'disable'

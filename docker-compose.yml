@@ -1,0 +1,48 @@
+version: '3.10'
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nlp_app
+    ports:
+      - "8501:8501"
+    environment:
+      - DATABASE_URL=postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@db:${POSTGRES_PORT}/${POSTGRES_DB}
+      - PYTHONPATH=/app
+    depends_on:
+      - db
+    volumes:
+      - .:/app
+
+  db:
+    image: postgres:14
+    container_name: ${POSTGRES_CONTAINER_NAME}
+    env_file: .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}" ]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 80s
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: ${GRAFANA_CONTAINER_NAME}
+    ports:
+      - ${GRAFANA_PORT}:3000
+    env_file: .env
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+      - ./grafana/provisioning/datasources/datasources.yaml:/etc/grafana/provisioning/datasources/datasources.yaml
+    depends_on:
+      - db
+
+volumes:
+  postgres_data:
+  grafana_data:
